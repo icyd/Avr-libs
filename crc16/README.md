@@ -11,6 +11,8 @@ When mask and initial values are required to change through the code, and the ta
 
 On the other hand, if the mask and initvalue is predefined, a table have to be defined as a variable, its value could be calculated with the program contained in `genTable.c`.
 
+__Documentation:__ to generate documentation of the source code use `doxygen doxygen.conf`.
+
 ****************************************************************************
 Firmware Copyright (C):
     2018 - Alberto Vazquez aka IcyD
