@@ -3,9 +3,7 @@
 
 This library is design to realize calculation of crc8 (with diferent initial values and masks) over a variable size array of data.
 
-The value of the initial seed to the crc calculation and the mask value, could be predefined if only one value will be used (through compiler's options `-DINITVALUE=init` and `-DMASK=mask`). Both definitions have to be given to use those methods.
-
-When mask and initial values are required to change through the code, and the table based solution is required the function `crc16GenTable` needs to be called before any attempt to calculate the crc.
+The value of the initial seed to the crc calculation and the mask value, could be predefined if only one value will be used (through compiler's options `-DCRC8_INIT=init` and `-DCRC8_MASK=mask`). Both definitions have to be given to use those methods.
 
 __Documentation:__ to generate documentation of the source code use `doxygen doxygen.conf`.
 

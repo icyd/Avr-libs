@@ -3,9 +3,9 @@
 
 Implementation of circular buffer in C.
 
-To use it compile it with option -D of gcc: `gcc -D B_SIZE=(desired buffer size)`.
+To use it compile it with option -D of gcc: `gcc -D RING_BUFFER_SIZE=(desired buffer size)`.
 
-By defaults the element stored by the buffer are of type `uint8_t`, but it can be changed to other type using the definition `gcc -D DATATYPE=(data type desired)`.
+By defaults the element stored by the buffer are of type `uint8_t`, but it can be changed to other type using the definition `gcc -D RING_BUFFER_DATATYPE=(data type desired)`.
 
 The maximun length of the buffer is 2^16 = 65536.
 

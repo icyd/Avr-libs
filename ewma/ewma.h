@@ -10,7 +10,7 @@
  *
  * Also the if the default type of data (uint16_t) is used, it allows numerators until 256 with uint8_t, without overflow.
  * 
- * The formula for the average calculation is: \f$y_k = \alpha_1 y_{k-1} + \alpha_2 x_k\f$ where \f$\alpha_1 = \frac{NUM}{DEN}, \quad \alpha_2 = 1 - \alpha_1\f$.
+ * The formula for the average calculation is: \f$y_k = \alpha_1 y_{k-1} + \alpha_2 x_k\f$ where \f$\alpha_1 = \frac{EWMA_NUM}{EWMA_DEN}, \quad \alpha_2 = 1 - \alpha_1\f$.
  *
  * The values of the numerator and denominator of \f$\alpha_1\f$ should be defined with the compiler's option -D.
  */
@@ -19,30 +19,30 @@
 
 #include <stdint.h>
 
-#if !defined(INITVALUE) || defined(__DOXIGEN__)
+#if !defined(EWMA_INIT) || defined(__DOXIGEN__)
 //! Defines the initial value of the average after reset.
-#define INITVALUE       0
+#define EWMA_INIT       0
 #endif
 
-#if !defined(DATATYPE) || defined(__DOXYGEN__)
+#if !defined(EWMA_DATATYPE) || defined(__DOXYGEN__)
 //! Defines the type of data that holds the average value.
-#define DATATYPE        uint16_t
+#define EWMA_DATATYPE        uint16_t
 #endif
 
 #if defined(__DOXYGEN__)
 //! Defines the numerator of \f$\alpha_1\f$.
-#define NUM         3
+#define EWMA_NUM         3
 //! Defines the denominator of \f$\alpha_1\f$.
-#define DEN         4
+#define EWMA_DEN         4
 #else
-#if !defined(NUM) || !defined(DEN)
-#error "NUM and DEN should be defined with compiler's option -D"
+#if !defined(EWMA_NUM) || !defined(EWMA_DEN)
+#error "EWMA_NUM and EWMA_DEN should be defined with compiler's option -D"
 #else
-#if (DEN & (DEN - 1))
-#error "DEN have to be a power of two"
+#if (EWMA_DEN & (EWMA_DEN - 1))
+#error "EWMA_DEN have to be a power of two"
 #endif
-#if !(DEN > NUM)
-#error "NUM have to be smaller than DEN"
+#if !(EWMA_DEN > EWMA_NUM)
+#error "EWMA_NUM have to be smaller than EWMA_DEN"
 #endif
 #endif
 #endif
@@ -57,22 +57,22 @@
 #endif
 
 //! Calculates the number of left shift required to perform the division. 
-#define SHIFTS     LOG_2(DEN) 
+#define SHIFTS     LOG_2(EWMA_DEN) 
 
 /*!
- * \brief Reset the value of the average to INITVALUE
+ * \brief Reset the value of the average to EWMA_INIT
  */
 extern void ewmaReset(void); 
 /*!
  * \brief Returns the actual value of the average, without modifying it.
  * \return The actual value of the average.
  */
-extern DATATYPE ewmaValue(void);
+extern EWMA_DATATYPE ewmaValue(void);
 /*!
  * \brief Calculates the average based on the new sample.
  * \param sample New sample to average.
  * \return New value of the average.
  */
-DATATYPE ewma(DATATYPE sample);
+EWMA_DATATYPE ewma(EWMA_DATATYPE sample);
 
 #endif

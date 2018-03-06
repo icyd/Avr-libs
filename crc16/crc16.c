@@ -8,28 +8,28 @@
  */
 #include "crc16.h"
 
-#if defined(USEBIT) && defined(MASK) && defined(INITVALUE)
-  uint16_t crc16Calc(uint16_t length, uint8_t *data) {
-    uint16_t i, crc;
-    uint8_t j;
+#if !defined(CRC16_USE_TABLE) && defined(CRC16_MASK) && defined(CRC16_INIT)
+  uint16_t crc16Calc(uint8_t length, uint8_t *data) {
+    uint16_t crc;
+    uint8_t i, j;
 
-    crc = INITVALUE;
+    crc = CRC16_INIT;
     for (i=length; i>0; i--) {
         crc = crc ^ *(data + length - i);
         for (j=8; j>0; j--) {
             if(crc & 1)
-                crc = (crc >> 1) ^ MASK;
+                crc = (crc >> 1) ^ CRC16_MASK;
             else
                 crc >>= 1;
         }
     }
     return crc;
 }
-#elif defined(USEBIT)
-  uint16_t crc16Calc(uint16_t initvalue, uint16_t mask, uint16_t length,\
+#elif !defined(CRC16_USE_TABLE)
+  uint16_t crc16Calc(uint16_t initvalue, uint16_t mask, uint8_t length,\
         uint8_t *data) {
-    uint16_t i, crc;
-    uint8_t j;
+    uint16_t crc;
+    uint8_t i, j;
 
     crc = initvalue;
     for (i=length; i>0; i--) {
@@ -45,16 +45,17 @@
 }
 #endif
 
-#if defined(USETABLE) && defined(MASK) && defined(INITVALUE)
-uint16_t crc16CalcTable(const uint16_t *table, uint16_t length, uint8_t *data) {
-    uint16_t i, crc;
+#if defined(CRC16_USE_TABLE) && defined(CRC16_MASK) && defined(CRC16_INIT)
+uint16_t crc16CalcTable(const uint16_t *table, uint8_t length, uint8_t *data) {
+    uint16_t crc;
+    uint8_t i;
 
-    crc = INITVALUE;
+    crc = CRC16_INIT;
     for(i=length; i>0; i--)
         crc = (crc >> 8) ^ *(table + ((uint8_t)(*(data + length - i)) ^ (uint8_t)crc));
     return crc;
 }
-#elif defined(USETABLE)
+#elif defined(CRC16_USE_TABLE)
 //! define the maximal number of posible values of data.
 #define MAX     256
 //! define maximal iteration.
@@ -90,8 +91,9 @@ void crc16TableGen(uint16_t initValue, uint16_t mask) {
     } while(i>0);
 }
 
-uint16_t crc16CalcTable(uint16_t length, uint8_t *data) {
-    uint16_t i, crc;
+uint16_t crc16CalcTable(uint8_t length, uint8_t *data) {
+    uint16_t crc;
+    uint8_t i;
 
     crc = _crcStruct.initValue;
     for(i=length; i>0; i--)

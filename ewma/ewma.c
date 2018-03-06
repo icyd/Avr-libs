@@ -9,22 +9,22 @@
 #include "ewma.h"
 #include <stdio.h>
 
-static DATATYPE _average = INITVALUE; //!< Static value that holds the average.
+static EWMA_DATATYPE _average = EWMA_INIT; //!< Static value that holds the average.
 
 __attribute__ ((always_inline)) inline void ewmaReset(void) {
-    _average = INITVALUE;
+    _average = EWMA_INIT;
 }
 
-__attribute__ ((always_inline)) inline DATATYPE ewmaValue(void) {
+__attribute__ ((always_inline)) inline EWMA_DATATYPE ewmaValue(void) {
     return _average;
 }
 
-DATATYPE ewma(DATATYPE sample) {
-    DATATYPE tmp;
+EWMA_DATATYPE ewma(EWMA_DATATYPE sample) {
+    EWMA_DATATYPE tmp;
     uint8_t roundup;
 
-    tmp = (_average * NUM) + (sample * (DEN - NUM));
-    roundup = ((tmp & (DEN - 1)) < (DEN >> 1)) ? 0 : 1;
+    tmp = (_average * EWMA_NUM) + (sample * (EWMA_DEN - EWMA_NUM));
+    roundup = ((tmp & (EWMA_DEN - 1)) < (EWMA_DEN >> 1)) ? 0 : 1;
     _average = (tmp >> SHIFTS) + roundup;
     
     return _average;

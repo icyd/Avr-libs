@@ -3,9 +3,9 @@
 
 This library is design to realize calculation of crc16 (with diferent initial values and masks) over a variable size array of data.
 
-Calculations could be realized usign bitwise methods (usign the compiler's option -D`USEBIT`) or a lookup table based solution (with compiler's option `-DUSETABLE`).
+Calculations could be realized usign bitwise methods or a lookup table based solution (with compiler's option `-DCRC16_USE_TABLE`).
 
-Additionally, the value of the initial seed to the crc calculation and the mask value, could be predefined if only one value will be used (through compiler's options `-DINITVALUE=init` and `-DMASK=mask`). Both definitions have to be given to use those methods.
+Additionally, the value of the initial seed to the crc calculation and the mask value, could be predefined if only one value will be used (through compiler's options `-DCRC16_INIT=init` and `-DCRC16_MASK=mask`). Both definitions have to be given to use those methods.
 
 When mask and initial values are required to change through the code, and the table based solution is required the function `crc16GenTable` needs to be called before any attempt to calculate the crc.
 

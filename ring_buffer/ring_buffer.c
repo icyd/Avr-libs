@@ -9,15 +9,15 @@
 
 #include "ring_buffer.h"
 
-//! If B_SIZE isn't power of 2: Checks if after adding the value is greater or equal to B_SIZE, in this case the value will be wrap around to 0.
-#define __addmod_pow2(x)        (((x + 1) >= B_SIZE) ? 0 : (x + 1)) 
-//! If B_SIZE is power of 2: Will apply a bitwise and operation to the value plus 1 with a mask of value (B_SIZE - 1).
-#define __addmod_not_pow2(x)    ((x + 1) & B_SIZE_MASK) 
+//! If RING_BUFFER_SIZE isn't power of 2: Checks if after adding the value is greater or equal to RING_BUFFER_SIZE, in this case the value will be wrap around to 0.
+#define __addmod_pow2(x)        (((x + 1) >= RING_BUFFER_SIZE) ? 0 : (x + 1)) 
+//! If RING_BUFFER_SIZE is power of 2: Will apply a bitwise and operation to the value plus 1 with a mask of value (RING_BUFFER_SIZE - 1).
+#define __addmod_not_pow2(x)    ((x + 1) & RING_BUFFER_SIZE_MASK) 
 
-#if (B_SIZE & B_SIZE_MASK)
-   #define __addmod(x)  __addmod_not_pow2(x)  
+#if (RING_BUFFER_SIZE & RING_BUFFER_SIZE_MASK)
+#define __addmod(x)  __addmod_not_pow2(x)  
 #else
-  #define __addmod(x)   __addmod_pow2(x)
+#define __addmod(x)   __addmod_pow2(x)
 #endif
 
   
@@ -27,7 +27,7 @@ __attribute__ ((always_inline)) inline void RingBufferInit(cque *x) {
   x->isFull = FALSE;
 }
 
-uint8_t RingBufferPush(cque *x, DATATYPE d){
+uint8_t RingBufferPush(cque *x, RING_BUFFER_DATATYPE d){
 
     if (!RingBufferIsFull(x)){
         //x->buffer[x->write] = d;
@@ -42,7 +42,7 @@ uint8_t RingBufferPush(cque *x, DATATYPE d){
     return 0;
 }
 
-uint8_t RingBufferPop(cque *x, DATATYPE *d){
+uint8_t RingBufferPop(cque *x, RING_BUFFER_DATATYPE *d){
 
   if(!RingBufferIsEmpty(x)) {
         //*d = x->buffer[x->read];
