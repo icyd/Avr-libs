@@ -50,7 +50,7 @@
    * \param *data pointer to the data.
    * \return crc16 calculated.
    */
-    void crc16CalcTable(const uint16_t *table, uint16_t length, uint8_t *data);
+    uint16_t crc16CalcTable(const uint16_t *table, uint16_t length, uint8_t *data);
 #elif defined(USETABLE)
     /*!
      * \brief Function to dynamic generate a lookup table given the initial value and mask to fast crc calculation.
@@ -59,7 +59,7 @@
      * \param mask past the mask for crc calculation.
      * \return crc16 calculated.
      */
-    uint16_t crc16TableGen(uint16_t initValue, uint16_t mask);
+    void crc16TableGen(uint16_t initValue, uint16_t mask);
     /*!
      * \brief Function to compute the crc with a table generated with \sa crc16TableGen
      * \note to activate this define USEBIT, MASK=mask and INITVALUE=init with compiler's -D option.

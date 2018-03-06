@@ -46,6 +46,15 @@
 #endif
 
 #if defined(USETABLE) && defined(MASK) && defined(INITVALUE)
+uint16_t crc16CalcTable(const uint16_t *table, uint16_t length, uint8_t *data) {
+    uint16_t i, crc;
+
+    crc = INITVALUE;
+    for(i=length; i>0; i--)
+        crc = (crc >> 8) ^ *(table + ((uint8_t)(*(data + length - i)) ^ (uint8_t)crc));
+    return crc;
+}
+#elif defined(USETABLE)
 //! define the maximal number of posible values of data.
 #define MAX     256
 //! define maximal iteration.
@@ -87,15 +96,6 @@ uint16_t crc16CalcTable(uint16_t length, uint8_t *data) {
     crc = _crcStruct.initValue;
     for(i=length; i>0; i--)
         crc = (crc >> 8) ^ *(_crcStruct.table + ((uint8_t)(*(data + length - i)) ^ (uint8_t)crc));
-    return crc;
-}
-#elif defined(USETABLE)
-uint16_t crc16CalcTable(const uint16_t *table, uint16_t length, uint8_t *data) {
-    uint16_t i, crc;
-
-    crc = INITVALUE;
-    for(i=length; i>0; i--)
-        crc = (crc >> 8) ^ *(table + ((uint8_t)(*(data + length - i)) ^ (uint8_t)crc));
     return crc;
 }
 #endif

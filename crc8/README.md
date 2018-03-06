@@ -1,13 +1,11 @@
 # Avr-libs
-## Circular buffer with variable size
+## Library to calculate crc8
 
-Implementation of circular buffer in C.
+This library is design to realize calculation of crc8 (with diferent initial values and masks) over a variable size array of data.
 
-To use it compile it with option -D of gcc: `gcc -D B_SIZE=(desired buffer size)`.
+The value of the initial seed to the crc calculation and the mask value, could be predefined if only one value will be used (through compiler's options `-DINITVALUE=init` and `-DMASK=mask`). Both definitions have to be given to use those methods.
 
-By defaults the element stored by the buffer are of type `uint8_t`, but it can be changed to other type using the definition `gcc -D DATATYPE=(data type desired)`.
-
-The maximun length of the buffer is 2^16 = 65536.
+When mask and initial values are required to change through the code, and the table based solution is required the function `crc16GenTable` needs to be called before any attempt to calculate the crc.
 
 __Documentation:__ to generate documentation of the source code use `doxygen doxygen.conf`.
 
@@ -28,4 +26,4 @@ Firmware Copyright (C):
         You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    k***************************************************************************
+****************************************************************************
